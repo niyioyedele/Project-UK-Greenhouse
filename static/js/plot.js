@@ -1,27 +1,28 @@
-const api_url = 'api/source'
-
-async function getData(){
-  const response = await fetch(api_url)
-const data = await response.json();
-console.log(data)
-
-for(var i = 0; i < data.lenght; i++) {
-  data.Sector = data[i].Sector
-  data._1990 = data[i]._1990
-}
+var api_url = "/api/source"
 
 
-var x = data.Sector
-var y = data._1990
+
+// d3.json(api_url).then((data) => {
+// var x = data.Sector;
+// var y = data._1990;
+// data = [{x ,y}];
+// Plotly.newPlot('bar', data)
+// })
 
 function init() {
+  d3.json(api_url).then((data) => {
+    console.log(data)
+    for (var i = 0; i < data.lenght; i++){
+      data.Sector = data[i].Sector;
+      data._1990 = data[i]._1990;
+    }
+    var x = data.Sector;
+    var y = data._1990;
+    console.log(x);
 
-data = [{x ,y}];
- 
-
-
-Plotly.newpLot('plot', data)
-}
+    data = [{x ,y}];
+    Plotly.newPlot('bar', data)
+    })
 
 // Call updatePlotly() when a change takes place to the DOM
 d3.selectAll("#selDataset").on("change", updatePlotly);
@@ -34,7 +35,7 @@ function updatePlotly() {
   var dataset = dropdownMenu.property("value");
 
   // Initialize x and y arrays
-  // var x = [];
+  var x = data.Sector;
   var y = [];
 
   if (dataset === '_1990') {y = data._1990;}
@@ -71,12 +72,12 @@ function updatePlotly() {
 
  // Note the extra brackets around  'y'
  
- Plotly.restyle("plot", "y", [y]);
+ Plotly.restyle("bar", "y", [y]);
 }
 }
 
 
 
 
-getData();  
-init();    
+// getData();  
+init(); 
